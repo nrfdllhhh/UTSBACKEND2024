@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('author');
             $table->string('description');
-            $table->teks('content');
+            $table->text('content');
             $table->string('url');
             $table->string('url_image');
             $table->dateTime('published_at');

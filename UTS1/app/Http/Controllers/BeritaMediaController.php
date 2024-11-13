@@ -14,7 +14,7 @@ class BeritaMediaController
 
     public function index() 
         { 
-            $berita = Berita::all(); 
+            $berita = BeritaMedia::all(); 
             if ($berita) { 
                 $data = [ 
                     'message' => 'Get All Resource ', 
@@ -60,7 +60,7 @@ class BeritaMediaController
                     ], 422); 
                 } 
          
-                $berita = Berita::create($request->all()); 
+                $berita = BeritaMedia::create($request->all()); 
                  
                 $data = [ 
                     'message' => 'Resource is added successfully', 
@@ -75,7 +75,7 @@ class BeritaMediaController
          */ 
         public function show(string $id) 
         { 
-            $berita = Berita::find($id); 
+            $berita = BeritaMedia::find($id); 
      
             if ($berita) { 
                 $data = [ 
@@ -94,7 +94,7 @@ class BeritaMediaController
         /** 
          * Show the form for editing the specified resource. 
          */ 
-        public function edit(Berita $berita) 
+        public function edit(BeritaMedia $berita) 
         { 
              
         } 
@@ -104,7 +104,7 @@ class BeritaMediaController
          */ 
         public function update(Request $request, $id) 
         { 
-            $berita = Berita::find($id); 
+            $berita = BeritaMedia::find($id); 
             if ($berita) { 
                 $input = [ 
                     'id' => $request->id ?? $berita->id, 
@@ -136,7 +136,7 @@ class BeritaMediaController
          */ 
         public function destroy(string $id) 
         { 
-            $berita = Berita::find($id); 
+            $berita = BeritaMedia::find($id); 
      
             if ($berita) { 
      
@@ -161,7 +161,6 @@ class BeritaMediaController
      
         public function search(Request $request) 
     { 
-        // Validate the title input 
         $validator = Validator::make($request->all(), [ 
             'title' => 'required|string', 
         ]); 
@@ -173,20 +172,42 @@ class BeritaMediaController
             ], 422); 
         } 
      
-        // Use Eloquent's where and get to search for the resource by title 
-        $berita = Berita::where('title', 'like', '%' . $request->title . '%')->get(); 
+        $berita = BeritaMedia::where('title', 'like', '%' . $request->title . '%')->get(); 
      
-        // Check if any resources were found 
         if ($berita->isEmpty()) { 
             return response()->json([ 
                 'message' => 'Resource not found', 
             ], 404); 
         } 
      
-        // Return the found resources 
         return response()->json([ 
             'message' => 'Resource found successfully', 
             'data' => $berita, 
         ], 200); 
     }
-    
+
+    public function sport() {
+        $berita = BeritaMedia::where('category','sport')->get();
+        return response()->json([
+            'status' => 'Get Sport Resource',
+            'data' => $berita
+
+        ], 200);
+    }
+    public function finance() {
+        $berita = BeritaMedia::where('category','finance')->get();
+        return response()->json([
+            'status' => 'Get Finance Resource',
+            'data' => $berita
+
+        ], 200);
+    }
+    public function automotive() {
+        $berita = BeritaMedia::where('category','automotive')->get();
+        return response()->json([
+            'status' => 'Get Automotive Resource',
+            'data' => $berita
+
+        ], 200);
+    }
+}
